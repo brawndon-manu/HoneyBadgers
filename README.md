@@ -1,2 +1,5 @@
 # HoneyBadgers
-CPSC CSUF 454 Cloud Security
+## CPSC CSUF 454 Cloud Security
+#### Project Description – Honeypot Deployment Foundation
+
+The Honeypot Deployment Foundation project establishes a secure, cloud-based honeynet environment designed to detect, capture, and analyze real-world cyberattacks in AWS. The solution integrates multiple components: infrastructure automation (VPCs, IAM, logging, Terraform), a Cowrie SSH/Telnet honeypot for attacker engagement, automated log parsing with AWS Lambda and DynamoDB for threat intelligence storage, real-time defensive actions through AWS WAF, and a React-based web dashboard for monitoring attacker activity and managing responses. Security and compliance are addressed through GuardDuty, CloudWatch alarms, and ISO 27001–aligned logging and retention policies. Together, these deliverables provide a robust and scalable platform that not only attracts attackers but also automates detection, defense, and reporting, serving as both a research tool and a practical cloud security defense system
