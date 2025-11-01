@@ -1,14 +1,14 @@
 # HoneyBadgers
+
 ## CPSC CSUF 454 Cloud Security
-#### Project Description – Honeypot Deployment Foundation
+
+### Project Description – Honeypot Deployment Foundation
 
 The Honeypot Deployment Foundation project establishes a secure, cloud-based honeynet environment designed to detect, capture, and analyze real-world cyberattacks in AWS. The solution integrates multiple components: infrastructure automation (VPCs, IAM, logging, Terraform), a Cowrie SSH/Telnet honeypot for attacker engagement, automated log parsing with AWS Lambda and DynamoDB for threat intelligence storage, real-time defensive actions through AWS WAF, and a React-based web dashboard for monitoring attacker activity and managing responses. Security and compliance are addressed through GuardDuty, CloudWatch alarms, and ISO 27001–aligned logging and retention policies. Together, these deliverables provide a robust and scalable platform that not only attracts attackers but also automates detection, defense, and reporting, serving as both a research tool and a practical cloud security defense system
- ---
 
+---
 
-
-
- # Honeypot Deployment
+# Honeypot Deployment
 
 Secure, AWS-based honeynet with Cowrie (SSH/Telnet), automated log parsing (Lambda → DynamoDB), real-time blocking (WAF), and a React dashboard. Infra is Terraform.
 
@@ -53,10 +53,10 @@ honeypot-foundation/
 
 ## Prereqs
 
-* Terraform ≥ 1.6
-* AWS CLI configured (an admin/sandbox account)
-* Node ≥ 18 (for frontend)
-* Python 3.11 (if you run Lambdas locally; not required for deploy)
+- Terraform ≥ 1.6
+- AWS CLI configured (an admin/sandbox account)
+- Node ≥ 18 (for frontend)
+- Python 3.11 (if you run Lambdas locally; not required for deploy)
 
 ---
 
@@ -94,12 +94,12 @@ terraform plan -out tfplan
 terraform apply tfplan
 ```
 
-What you get: VPC, S3 log bucket, CloudWatch log groups, DynamoDB (ThreatIntel), WAF (WebACL+IPSet), API shell, IAM roles, GuardDuty, basic alarms, and both Lambda *functions* created from your code stubs.
+What you get: VPC, S3 log bucket, CloudWatch log groups, DynamoDB (ThreatIntel), WAF (WebACL+IPSet), API shell, IAM roles, GuardDuty, basic alarms, and both Lambda _functions_ created from your code stubs.
 
 > Note: The EC2 honeypot instance is **not** created by these base modules. You can:
 >
-> * Launch it by hand (fastest) and paste the UserData, or
-> * Add a tiny `ec2_honeypot` module later. For speed, do it by hand now.
+> - Launch it by hand (fastest) and paste the UserData, or
+> - Add a tiny `ec2_honeypot` module later. For speed, do it by hand now.
 
 ---
 
@@ -107,15 +107,15 @@ What you get: VPC, S3 log bucket, CloudWatch log groups, DynamoDB (ThreatIntel),
 
 **Where to click:** AWS Console → EC2 → Launch instance
 
-* AMI: Amazon Linux 2
-* Instance profile/role: one that allows CloudWatch logs (use your IAM module’s EC2 role if you have it; otherwise create a simple one now)
-* Network: put it in **public subnet** (from your VPC) + public IP
-* Security group: inbound 22 & 23 (for Cowrie), and 22 for your admin IP if needed
-* **User data:** paste `honeypot/userdata/cowrie-amzn2.sh` (the stub installs Cowrie + CloudWatch Agent)
+- AMI: Amazon Linux 2
+- Instance profile/role: one that allows CloudWatch logs (use your IAM module’s EC2 role if you have it; otherwise create a simple one now)
+- Network: put it in **public subnet** (from your VPC) + public IP
+- Security group: inbound 22 & 23 (for Cowrie), and 22 for your admin IP if needed
+- **User data:** paste `honeypot/userdata/cowrie-amzn2.sh` (the stub installs Cowrie + CloudWatch Agent)
 
 After boot:
 
-* Confirm logs flow into CW log groups `/honeypot/cowrie` and `/honeypot/system`.
+- Confirm logs flow into CW log groups `/honeypot/cowrie` and `/honeypot/system`.
 
 ---
 
@@ -149,22 +149,22 @@ Outputs to `frontend/dist/` (you’ll host this via S3 + CloudFront in Terraform
 
 ## Common next steps (after stubs)
 
-* **Parser Lambda**: decode CW subscription payload (base64+gzip), parse Cowrie JSON (`eventid`, `src_ip`, `dst_port`, `username`, `password`), upsert to DynamoDB; add partition-key design you want (we use `ip`) and a GSI on `last_seen`.
-* **WAF automation**: implement `get_ip_set` → `update_ip_set` with lock token, add `/threats/block?ip=x.x.x.x` handler (API integration) and/or EventBridge schedule to auto-block top scorers.
-* **API Gateway**: add two GET routes: `/threats`, `/events` (proxy to a tiny read Lambda or DynamoDB direct via Lambda).
-* **Frontend**: point `services/api.js` to API URL; wire **Block** button to the `/threats/block` endpoint.
-* **EC2 hardening**: apply `honeypot/hardening/egress-iptables.sh` (or VPC endpoints) to restrict outbound.
-* **CloudFront/S3**: add a small module to host `frontend/dist/` with logs + OAC; (optionally) attach WAF WebACL there.
+- **Parser Lambda**: decode CW subscription payload (base64+gzip), parse Cowrie JSON (`eventid`, `src_ip`, `dst_port`, `username`, `password`), upsert to DynamoDB; add partition-key design you want (we use `ip`) and a GSI on `last_seen`.
+- **WAF automation**: implement `get_ip_set` → `update_ip_set` with lock token, add `/threats/block?ip=x.x.x.x` handler (API integration) and/or EventBridge schedule to auto-block top scorers.
+- **API Gateway**: add two GET routes: `/threats`, `/events` (proxy to a tiny read Lambda or DynamoDB direct via Lambda).
+- **Frontend**: point `services/api.js` to API URL; wire **Block** button to the `/threats/block` endpoint.
+- **EC2 hardening**: apply `honeypot/hardening/egress-iptables.sh` (or VPC endpoints) to restrict outbound.
+- **CloudFront/S3**: add a small module to host `frontend/dist/` with logs + OAC; (optionally) attach WAF WebACL there.
 
 ---
 
 ## Verify it works (MVP checklist)
 
-* [ ] Hitting the honeypot’s public IP on 22/23 generates Cowrie logs in CW.
-* [ ] Parser Lambda is invoked (via subscription) and rows appear in DynamoDB `ThreatIntel`.
-* [ ] Frontend renders a table/feed (stub or real data).
-* [ ] WAF IPSet exists; WAF Lambda can read it; manual update test succeeds.
-* [ ] Alarms show OK; GuardDuty enabled.
+- [ ] Hitting the honeypot’s public IP on 22/23 generates Cowrie logs in CW.
+- [ ] Parser Lambda is invoked (via subscription) and rows appear in DynamoDB `ThreatIntel`.
+- [ ] Frontend renders a table/feed (stub or real data).
+- [ ] WAF IPSet exists; WAF Lambda can read it; manual update test succeeds.
+- [ ] Alarms show OK; GuardDuty enabled.
 
 ---
 
@@ -183,9 +183,9 @@ terraform destroy
 
 ## Docs to keep up-to-date
 
-* `docs/logging-monitoring-policy.md` — what’s logged, who reviews, cadence, evidence.
-* `docs/retention-policy.md` — 90-day hot, 1-year cold (or your targets).
-* `docs/incident-response-playbook.md` — detection → WAF contain → recovery.
-* `docs/runbook.md` — deploy steps, rotate keys, restore, replay logs.
+- `docs/logging-monitoring-policy.md` — what’s logged, who reviews, cadence, evidence.
+- `docs/retention-policy.md` — 90-day hot, 1-year cold (or your targets).
+- `docs/incident-response-playbook.md` — detection → WAF contain → recovery.
+- `docs/runbook.md` — deploy steps, rotate keys, restore, replay logs.
 
 ---
