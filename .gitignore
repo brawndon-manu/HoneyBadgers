@@ -10,3 +10,6 @@ override.tf.json
 *_override.tf
 *_override.tf.json
 .terraform.lock.hcl
+infra/envs/dev/outputs.dev.json
+infra/envs/dev/tfplan
+infra/envs/dev/plan.out
