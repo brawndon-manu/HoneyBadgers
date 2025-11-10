@@ -3,7 +3,7 @@ terraform {
     bucket         = "honeybadgers-tf-state-dev-usw2"
     key            = "dev/terraform.tfstate"
     region         = "us-west-2"
-    dynamodb_table = "honeybadgers-tf-locks-dev"
+    use_lockfile = true #S3 native locking replacing dynamodb_table
     encrypt        = true
   }
 }
