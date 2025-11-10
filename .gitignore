@@ -13,3 +13,7 @@ override.tf.json
 infra/envs/dev/outputs.dev.json
 infra/envs/dev/tfplan
 infra/envs/dev/plan.out
+# --- Terraform local artifacts ---
+*.tfplan
+infra/envs/**/plans/
+infra/envs/**/outputs.*.json
