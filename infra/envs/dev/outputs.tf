@@ -17,3 +17,16 @@ output "public_route_table_id" {
 output "igw_id"                { 
     value = module.vpc.igw_id 
     }
+
+output "threatintel_table_name" {
+  description = "DynamoDB ThreatIntel table name"
+  value       = module.dynamodb.table_name
+}
+
+output "threatintel_table_arn" {
+  description = "DynamoDB ThreatIntel table ARN"
+  value       = module.dynamodb.table_arn
+}
+
+
+

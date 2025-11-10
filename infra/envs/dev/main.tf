@@ -10,7 +10,8 @@ module "vpc" {
   aws_region   = var.aws_region
 }
 
-module "dynamodb_threatintel" {
+module "dynamodb" {
+
   source         = "../../modules/dynamodb"
   ddb_table_name = var.ddb_table_name
   project_name   = var.project_name
