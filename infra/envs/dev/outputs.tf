@@ -30,3 +30,7 @@ output "threatintel_table_arn" {
 
 
 
+output "cw_events_log_group_name" { value = module.cw.events_log_group_name }
+output "cw_events_log_group_arn"  { value = module.cw.events_log_group_arn  }
+output "cw_flowlogs_log_group_name" { value = module.cw.flowlogs_log_group_name }
+output "cw_flowlogs_log_group_arn"  { value = module.cw.flowlogs_log_group_arn  }

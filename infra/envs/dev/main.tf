@@ -18,3 +18,13 @@ module "dynamodb" {
   env            = var.env
 }
 
+# --- CloudWatch Logs module (dev) ---
+module "cw" {
+  source = "../../modules/cw"
+
+  project_name     = var.project_name
+  env              = var.env
+  cw_log_retention = var.cw_log_retention
+}
+
+
