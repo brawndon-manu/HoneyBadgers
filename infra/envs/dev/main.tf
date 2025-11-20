@@ -28,3 +28,15 @@ module "cw" {
 }
 
 
+# --- VPC Flow Logs (dev) ---
+module "flow_logs" {
+  source = "../../modules/flow_logs"
+
+  project_name   = var.project_name
+  env            = var.env
+  vpc_id         = module.vpc.vpc_id
+  log_group_name = module.cw.flowlogs_log_group_name
+
+  # Cost guardrail: start with REJECT only
+  traffic_type   = "REJECT"
+}
