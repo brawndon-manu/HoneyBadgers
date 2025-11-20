@@ -1,4 +1,4 @@
-aws_region   = "us-west-2"
+﻿aws_region   = "us-west-2"
 project_name = "honeybadgers"
 env          = "dev"
 
@@ -8,6 +8,6 @@ public_subnets  = ["10.20.1.0/24"]
 private_subnets = ["10.20.2.0/24"]
 
 # logs & tables (you can keep or change names)
-log_bucket_name  = "hb-dev-logs-<uniq>"
+log_bucket_name  = "hb-dev-logs-manu"
 cw_log_retention = 90
 ddb_table_name   = "ThreatIntelDev"
