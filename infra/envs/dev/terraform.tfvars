@@ -1,4 +1,4 @@
-﻿aws_region   = "us-west-2"
+aws_region   = "us-west-2"
 project_name = "honeybadgers"
 env          = "dev"
 

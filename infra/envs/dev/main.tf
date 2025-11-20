@@ -11,7 +11,6 @@ module "vpc" {
 }
 
 module "dynamodb" {
-
   source         = "../../modules/dynamodb"
   ddb_table_name = var.ddb_table_name
   project_name   = var.project_name
@@ -27,7 +26,6 @@ module "cw" {
   cw_log_retention = var.cw_log_retention
 }
 
-
 # --- VPC Flow Logs (dev) ---
 module "flow_logs" {
   source = "../../modules/flow_logs"
@@ -38,8 +36,9 @@ module "flow_logs" {
   log_group_name = module.cw.flowlogs_log_group_name
 
   # Cost guardrail: start with REJECT only
-  traffic_type   = "REJECT"
+  traffic_type = "REJECT"
 }
+
 # --- S3 Logs bucket (dev) ---
 module "s3_logs" {
   source = "../../modules/s3_logs"
@@ -54,4 +53,30 @@ module "s3_logs" {
   # Can be overridden via tfvars if needed
   lifecycle_transition_days = 90
   lifecycle_expiration_days = 365
+}
+
+# --- IAM (Lambda roles) ---
+module "iam" {
+  source = "../../modules/iam"
+
+  project_name          = var.project_name
+  env                   = var.env
+  threatintel_table_arn = module.dynamodb.table_arn
+}
+
+# --- Lambdas (parser, waf_automation) ---
+module "lambdas" {
+  source = "../../modules/lambdas"
+
+  project_name = var.project_name
+  env          = var.env
+  aws_region   = var.aws_region
+
+  parser_lambda_role_arn = module.iam.parser_lambda_role_arn
+  waf_lambda_role_arn    = module.iam.waf_lambda_role_arn
+
+  threatintel_table_name = module.dynamodb.table_name
+
+  events_log_group_name = module.cw.events_log_group_name
+  events_log_group_arn  = module.cw.events_log_group_arn
 }
