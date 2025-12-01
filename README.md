@@ -47,7 +47,8 @@ honeypot-foundation/
 │  └─ src/ (App.jsx, components/, services/api.js)
 │
 └─ docs/                  # Policies, runbooks, IR playbook
-   ├─ logging-monitoring-policy.md  # what's logged, who reviews, cadence, evidence
+   ├─ logging-monitoring-policy.md     # what's logged, who reviews, cadence, evidence
+   ├─ retention-policy.md              # 90-day hot, 1-year cold
 ```
 
 ---
