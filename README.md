@@ -47,6 +47,7 @@ honeypot-foundation/
 │  └─ src/ (App.jsx, components/, services/api.js)
 │
 └─ docs/                  # Policies, runbooks, IR playbook
+   ├─ logging-monitoring-policy.md  # what's logged, who reviews, cadence, evidence
 ```
 
 ---
