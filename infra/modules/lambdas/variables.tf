@@ -37,3 +37,13 @@ variable "waf_lambda_role_arn" {
   description = "IAM role ARN for the WAF automation Lambda function"
   type        = string
 }
+
+variable "waf_ipset_id" {
+  description = "ID of the WAFv2 IPSet used for blocking attacker IPs"
+  type        = string
+}
+
+variable "waf_ipset_arn" {
+  description = "ARN of the WAFv2 IPSet used for blocking attacker IPs"
+  type        = string
+}

@@ -64,6 +64,14 @@ module "iam" {
   threatintel_table_arn = module.dynamodb.table_arn
 }
 
+# --- WAF (blocked IPSet) ---
+module "waf" {
+  source = "../../modules/waf"
+
+  project_name = var.project_name
+  env          = var.env
+}
+
 # --- Lambdas (parser, waf_automation) ---
 module "lambdas" {
   source = "../../modules/lambdas"
@@ -79,4 +87,8 @@ module "lambdas" {
 
   events_log_group_name = module.cw.events_log_group_name
   events_log_group_arn  = module.cw.events_log_group_arn
+
+  waf_ipset_id  = module.waf.waf_blocked_ipset_id
+  waf_ipset_arn = module.waf.waf_blocked_ipset_arn
+
 }
