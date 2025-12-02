@@ -7,8 +7,3 @@ terraform {
     encrypt      = true
   }
 }
-
-provider "aws" {
-  region  = "us-west-2"
-  profile = "honeybadgers-dev"
-}
