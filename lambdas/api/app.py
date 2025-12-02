@@ -1,6 +1,9 @@
-import os, json, boto3, datetime
+import os
+import json
+import boto3
+import datetime
 
-ddb = boto3.resource("ddb")
+ddb = boto3.resource("dynamodb")
 THREAT_TABLE = os.environ["THREAT_TABLE"]
 
 def lambda_handler(event, context):
