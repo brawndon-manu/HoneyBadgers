@@ -15,6 +15,7 @@ WAF_IPSET_ID = os.getenv("WAF_IPSET_ID")
 WAF_IPSET_ARN = os.getenv("WAF_IPSET_ARN")
 ENV = os.getenv("ENV", "dev")
 PROJECT = os.getenv("PROJECT", "HoneyBadgers")
+BLOCK_SCORE_THRESHOLD = int(os.getenv("BLOCK_SCCORE_THRESHOLD", "80"))
 
 # WAFv2 scope is REGIONAL for this project
 WAF_SCOPE = "REGIONAL"
@@ -91,6 +92,22 @@ def scan_threatintel_ips(table_name: str) -> set[str]:
 
         for item in items:
             ip_value = item.get("ip")
+            if not ip_value:
+                continue
+                
+            raw_score = item.get("score", 0)
+            try: 
+                score = int(raw_score)
+            except (TypeError, ValueError):
+                score = 0
+
+            if score < BLOCK_SCORE_THRESHOLD:
+                continue
+
+            block_status = item.get("block_status", "NONE")
+            if block_status == "IGNORE":
+                continue
+
             cidr = normalize_ip_to_cidr(ip_value)
             if cidr:
                 blocked_ips.add(cidr)
@@ -105,6 +122,7 @@ def scan_threatintel_ips(table_name: str) -> set[str]:
         "ThreatIntel scan complete: %d items scanned, %d unique CIDRs derived",
         items_read,
         len(blocked_ips),
+        BLOCK_SCORE_THRESHOLD,
     )
     return blocked_ips
 

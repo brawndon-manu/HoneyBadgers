@@ -7,7 +7,7 @@ import datetime
 import boto3
 
 ddb = boto3.resource("dynamodb")
-THREAT_TABLE = os.environ.get("THREAT_TABLE", "ThreatIntel")
+THREATINTEL_TABLE = os.environ.get("THREATINTEL_TABLE")
 
 def lambda_handler(event, context):
     """
@@ -33,7 +33,7 @@ def lambda_handler(event, context):
         log_events =  payload.get("logEvents", [])
         print(f"Processing {len(log_events)} log events")
 
-        table = ddb.Table(THREAT_TABLE)
+        table = ddb.Table(THREATINTEL_TABLE)
         now_unix = int(time.time())
 
         for le in log_events:

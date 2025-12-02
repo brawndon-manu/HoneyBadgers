@@ -4,7 +4,7 @@ import boto3
 import datetime
 
 ddb = boto3.resource("dynamodb")
-THREAT_TABLE = os.environ["THREAT_TABLE"]
+THREATINTEL_TABLE = os.environ["THREATINTEL_TABLE"]
 
 def lambda_handler(event, context):
     path = event.get("rawPath", "")
@@ -20,7 +20,7 @@ def lambda_handler(event, context):
     return {"statusCode": 404, "body": "Not found"}
 
 def get_threats():
-    table = ddb.Table(THREAT_TABLE)
+    table = ddb.Table(THREATINTEL_TABLE)
     resp = table.scan()
     items = resp.get("Items", [])
 
@@ -36,7 +36,7 @@ def post_block(event):
     if not ip:
         return {"statusCode": 400, "body": "Missing ip"}
     
-    table = ddb.Table(THREAT_TABLE)
+    table = ddb.Table(THREATINTEL_TABLE)
     expires = (datetime.datetime.utcnow() + datetime.timedelta(hours=24)).isoformat() + "Z"
 
     table.update_item(
