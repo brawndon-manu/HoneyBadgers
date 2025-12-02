@@ -47,3 +47,8 @@ variable "waf_ipset_arn" {
   description = "ARN of the WAFv2 IPSet used for blocking attacker IPs"
   type        = string
 }
+
+variable "waf_automation_schedule_expression" {
+  description = "Schedule expression (rate or cron) for the WAF automation Lambda (e.g., rate(5 minutes))"
+  type        = string
+}

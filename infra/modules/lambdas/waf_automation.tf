@@ -45,3 +45,23 @@ resource "aws_lambda_function" "waf_automation" {
 
   tags = local.waf_automation_common_tags
 }
+
+resource "aws_cloudwatch_event_rule" "waf_automation_schedule" {
+  name                = "${var.project_name}-${var.env}-waf-automation-schedule"
+  description         = "Schedule to invoke WAF automation Lambda"
+  schedule_expression = var.waf_automation_schedule_expression
+}
+
+resource "aws_cloudwatch_event_target" "waf_automation" {
+  rule      = aws_cloudwatch_event_rule.waf_automation_schedule.name
+  target_id = "waf-automation-lambda"
+  arn       = aws_lambda_function.waf_automation.arn
+}
+
+resource "aws_lambda_permission" "waf_automation_eventbridge" {
+  statement_id  = "AllowExecutionFromEventBridge"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.waf_automation.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.waf_automation_schedule.arn
+}

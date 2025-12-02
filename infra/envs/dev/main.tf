@@ -90,5 +90,7 @@ module "lambdas" {
 
   waf_ipset_id  = module.waf.waf_blocked_ipset_id
   waf_ipset_arn = module.waf.waf_blocked_ipset_arn
+  
+  waf_automation_schedule_expression = var.waf_automation_schedule_expression
 
 }
