@@ -49,6 +49,7 @@ honeypot-foundation/
 └─ docs/                  # Policies, runbooks, IR playbook
    ├─ logging-monitoring-policy.md     # what's logged, who reviews, cadence, evidence
    ├─ retention-policy.md              # 90-day hot, 1-year cold
+   ├─ incident-response-playbook.md    # compromise, Malicious IP, AWS Lambda, AWS WAF
 ```
 
 ---
