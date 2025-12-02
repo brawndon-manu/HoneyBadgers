@@ -1,0 +1,123 @@
+openapi: 3.1.0
+info:
+  title: HoneyBadgers API
+  version: 1.0.0
+
+paths:
+  /threats:
+    get:
+      summary: List current threat IP addresses
+      responses:
+        '200':
+          description: List of Threats
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThreatListResponse'
+
+  /events:
+    get:
+      summary: List Recent Events
+      responses:
+        '200':  
+          description: List of Events
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventListResponse'
+
+  /threats/block:
+    post:
+      summary: Manually Block an IP
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlockRequest'
+      responses:
+        '200':
+          description: Block Result
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/BlockResponse'
+
+components:
+  schemas:
+    Threat:
+      type: object
+      properties:
+        ip:
+          type: string
+        first_seen: 
+          type: string
+          format: date-time
+        last_seen:
+          type: string
+          format: date-time
+        count: 
+          type: integer
+        attack_types: 
+          type: array
+          items:
+            type: string
+        score:
+          type: integer
+        block_status: 
+          type: string
+
+    ThreatListResponse:
+      type: object
+      properties: 
+        items:
+          type: array
+          items:  
+            $ref: '#/components/schemas/Threat'
+    
+    Event:
+      type: object
+      properties:
+        ip:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        port:
+          type: integer
+        username:
+          type: string
+          nullable: true
+        password:
+          type: string
+          nullable: true
+        event_type:
+          type: string
+        
+    EventListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+    
+    BlockRequest:
+      type: object
+      required: [ip]
+      properties:
+        ip:
+          type: string
+        reason:
+          type: string
+    
+    BlockResponse:
+      type: object
+      properties: 
+        status: 
+          type: string
+        ip:
+          type: string
+        blocked_until:
+          type: string
+          format: date-time
