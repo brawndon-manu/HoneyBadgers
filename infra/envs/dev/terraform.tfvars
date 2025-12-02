@@ -1,6 +1,6 @@
-aws_region   = "us-west-2"
-project_name = "honeybadgers"
-env          = "dev"
+aws_region                         = "us-west-2"
+project_name                       = "honeybadgers"
+env                                = "dev"
 waf_automation_schedule_expression = "rate(5 minutes)"
 
 # networking (replace these with chosen CIDRs)
