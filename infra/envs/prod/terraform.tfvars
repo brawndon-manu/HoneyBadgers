@@ -11,3 +11,4 @@ private_subnets = ["10.20.2.0/24"]
 log_bucket_name  = "hb-prod-logs-manu"
 cw_log_retention = 90
 ddb_table_name   = "ThreatIntelProd"
+aws_profile = "honeybadgers-dev"
