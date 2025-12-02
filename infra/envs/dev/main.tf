@@ -90,7 +90,17 @@ module "lambdas" {
 
   waf_ipset_id  = module.waf.waf_blocked_ipset_id
   waf_ipset_arn = module.waf.waf_blocked_ipset_arn
-  
+
   waf_automation_schedule_expression = var.waf_automation_schedule_expression
 
+}
+
+# --- API Gateway (REST API with /health) ---
+module "apigw" {
+  source = "../../modules/apigw"
+
+  project_name      = var.project_name
+  env               = var.env
+  aws_region        = var.aws_region
+  health_lambda_arn = module.lambdas.health_lambda_arn
 }
