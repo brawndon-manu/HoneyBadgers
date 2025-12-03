@@ -1,0 +1,22 @@
+{
+  "logs": {
+    "logs_collected": {
+      "files": {
+        "collect_list": [
+          {
+            "file_path": "/opt/cowrie/cowrie/var/log/cowrie/cowrie.log",
+            "log_group_name": "/honeypot/cowrie",
+            "log_stream_name": "{instance_id}",
+            "timezone": "UTC"
+          },
+          {
+            "file_path": "/opt/cowrie/cowrie/var/log/cowrie/cowrie.json",
+            "log_group_name": "/honeypot/cowrie",
+            "log_stream_name": "{instance_id}-json",
+            "timezone": "UTC"
+          }
+        ]
+      }
+    }
+  }
+}
